@@ -206,6 +206,8 @@ For support and questions:
 - **Women Entrepreneurs** in Kenya for inspiration
 - **Open Source Community** for amazing tools and libraries
 
+- Link to powerpoint presentation on Queen of her yard: https://www.canva.com/design/DAG0TtQR6DE/TDDkfFH--ZXfLKXPOdKxww/edit?utm_content=DAG0TtQR6DE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
