@@ -1,0 +1,41 @@
+const mongoose = require('mongoose');
+const bcrypt = require("bcryptjs");
+
+const userSchema = new mongoose.Schema({
+    fullName: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    businessName: { type: String, required: true },
+    businessType: { type: String, required: true },
+    phone: { type: String, required: true },
+    password: { type: String, required: true },
+    location: { type: String },
+    profileImage: { type: String },
+    subscription: {
+        plan: { type: String, default: 'Basic' },
+        mpesaTransactionId: { type: String },
+        startedAt: { type: Date },
+        expiresAt: { type: Date },
+        isActive: { type: Boolean, default: false }
+    },
+    referralCode: { type: String, unique: true },
+}, {
+    timestamps: true // Adds createdAt and updatedAt fields
+});
+
+// Hash password before saving the user
+userSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) {
+        return next();
+    }
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+});
+
+// Method to compare entered password with hashed password
+userSchema.methods.matchPassword = async function (enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password);
+};
+
+const User = mongoose.model('User', userSchema);
+module.exports = User;

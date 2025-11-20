@@ -1254,10 +1254,6 @@ body.dark-mode .hero {
     font-size: 0.9rem;
 }
 
-.bot-message .message-content p {
-    color: var(--text-color);
-}
-
 .bot-message .message-avatar {
     background-color: var(--primary-color);
     color: #fff;

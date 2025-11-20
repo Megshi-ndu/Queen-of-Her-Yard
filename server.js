@@ -1,245 +1,85 @@
 const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const axios = require('axios');
-require('dotenv').config();
+require('dotenv').config({ path: './backend.env' });
+
+// Import routes
+const authRoutes = require('./api/routes/auth');
+const productRoutes = require('./api/routes/products');
+const paymentRoutes = require('./api/routes/payments');
 
 const app = express();
+const server = http.createServer(app);
 
-// Middleware
+// Initialize Socket.IO
+const io = new Server(server, {
+    cors: {
+        origin: "*", // In production, restrict this to your frontend's URL
+        methods: ["GET", "POST"]
+    }
+});
+
+// --- Middleware ---
 app.use(cors());
 app.use(express.json());
-app.use(express.static('uploads'));
+app.use('/uploads', express.static('uploads')); // Serve uploaded files statically
 
-// Database connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/queenofheryard', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+// --- Database Connection ---
+mongoose.connect(process.env.MONGODB_URI)
+    .then(() => console.log('Successfully connected to MongoDB.'))
+    .catch(err => {
+        console.error('Database connection error:', err);
+        process.exit(1);
+    });
+
+// --- API Routes ---
+app.get('/api', (req, res) => {
+    res.json({ message: 'Welcome to the Queen of Her Yard API!' });
 });
 
-// User Schema
-const userSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    businessName: { type: String, required: true },
-    businessType: { type: String, required: true },
-    phone: { type: String, required: true },
-    location: { type: String, required: true },
-    subscription: {
-        plan: { type: String, default: 'free' },
-        expiresAt: { type: Date },
-        isActive: { type: Boolean, default: false }
-    },
-    createdAt: { type: Date, default: Date.now }
+app.use('/api/auth', authRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/payments', paymentRoutes);
+
+// --- Socket.IO Connection Handling ---
+io.on('connection', (socket) => {
+    console.log(`User connected: ${socket.id}`);
+
+    // Handle chat messages
+    socket.on('chat_message', (message) => {
+        console.log(`Received message from ${socket.id}:`, message);
+
+        // Simulate a bot response
+        setTimeout(() => {
+            const response = generateBotResponse(message.text);
+            socket.emit('chat_response', { text: response });
+        }, 500);
+    });
+
+    socket.on('disconnect', () => {
+        console.log(`User disconnected: ${socket.id}`);
+    });
 });
 
-const User = mongoose.model('User', userSchema);
-
-// Product Schema
-const productSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    description: { type: String, required: true },
-    price: { type: Number, required: true },
-    category: { type: String, required: true },
-    images: [{ type: String }],
-    business: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    createdAt: { type: Date, default: Date.now }
-});
-
-const Product = mongoose.model('Product', productSchema);
-
-// M-Pesa Integration
-const mpesaAuth = async () => {
-    const auth = Buffer.from(`${process.env.MPESA_CONSUMER_KEY}:${process.env.MPESA_CONSUMER_SECRET}`).toString('base64');
-    
-    try {
-        const response = await axios.get('https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials', {
-            headers: {
-                'Authorization': `Basic ${auth}`
-            }
-        });
-        return response.data.access_token;
-    } catch (error) {
-        console.error('M-Pesa Auth Error:', error);
-        return null;
+function generateBotResponse(message) {
+    const lowerMessage = message.toLowerCase();
+    if (lowerMessage.includes('join') || lowerMessage.includes('business')) {
+        return "To join as a business owner, click on the 'Join Our Community' button and fill out the registration form.";
+    } else if (lowerMessage.includes('subscription') || lowerMessage.includes('plan')) {
+        return "We offer three subscription plans: Basic (free), Premium (KSh 500/month), and Enterprise (KSh 1,200/month).";
+    } else if (lowerMessage.includes('fashion') || lowerMessage.includes('clothing')) {
+        return "We have several fashion businesses in our community! You can browse them by selecting the 'Fashion' filter.";
+    } else if (lowerMessage.includes('contact') || lowerMessage.includes('support')) {
+        return "You can contact our support team by email at support@queenofheryard.co.ke or call +254 729 846 929.";
+    } else {
+        return "I'm here to help! You can ask me about joining, subscription plans, or finding businesses.";
     }
-};
+}
 
-// M-Pesa STK Push
-app.post('/api/mpesa/stkpush', async (req, res) => {
-    try {
-        const { phone, amount, businessId } = req.body;
-        
-        const token = await mpesaAuth();
-        if (!token) {
-            return res.status(500).json({ error: 'M-Pesa authentication failed' });
-        }
-
-        const timestamp = new Date().toISOString().replace(/[^0-9]/g, '').slice(0, -3);
-        const password = Buffer.from(`${process.env.MPESA_SHORTCODE}${process.env.MPESA_PASSKEY}${timestamp}`).toString('base64');
-
-        const response = await axios.post('https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest', {
-            BusinessShortCode: process.env.MPESA_SHORTCODE,
-            Password: password,
-            Timestamp: timestamp,
-            TransactionType: 'CustomerPayBillOnline',
-            Amount: amount,
-            PartyA: phone,
-            PartyB: process.env.MPESA_SHORTCODE,
-            PhoneNumber: phone,
-            CallBackURL: `${process.env.BASE_URL}/api/mpesa/callback`,
-            AccountReference: `QUEEN${businessId}`,
-            TransactionDesc: 'Queen of Her Yard Subscription'
-        }, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-
-        res.json(response.data);
-    } catch (error) {
-        console.error('M-Pesa STK Push Error:', error);
-        res.status(500).json({ error: 'Payment initiation failed' });
-    }
-});
-
-// User Registration
-app.post('/api/register', async (req, res) => {
-    try {
-        const { name, email, password, businessName, businessType, phone, location } = req.body;
-        
-        // Check if user exists
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            return res.status(400).json({ error: 'User already exists' });
-        }
-
-        // Hash password
-        const hashedPassword = await bcrypt.hash(password, 12);
-
-        // Create user
-        const user = new User({
-            name,
-            email,
-            password: hashedPassword,
-            businessName,
-            businessType,
-            phone,
-            location
-        });
-
-        await user.save();
-
-        // Generate token
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET || 'your-secret-key');
-
-        res.status(201).json({
-            token,
-            user: {
-                id: user._id,
-                name: user.name,
-                email: user.email,
-                businessName: user.businessName
-            }
-        });
-    } catch (error) {
-        res.status(500).json({ error: 'Registration failed' });
-    }
-});
-
-// User Login
-app.post('/api/login', async (req, res) => {
-    try {
-        const { email, password } = req.body;
-
-        // Find user
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(400).json({ error: 'Invalid credentials' });
-        }
-
-        // Check password
-        const isValidPassword = await bcrypt.compare(password, user.password);
-        if (!isValidPassword) {
-            return res.status(400).json({ error: 'Invalid credentials' });
-        }
-
-        // Generate token
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET || 'your-secret-key');
-
-        res.json({
-            token,
-            user: {
-                id: user._id,
-                name: user.name,
-                email: user.email,
-                businessName: user.businessName,
-                subscription: user.subscription
-            }
-        });
-    } catch (error) {
-        res.status(500).json({ error: 'Login failed' });
-    }
-});
-
-// Get user profile
-app.get('/api/profile', async (req, res) => {
-    try {
-        const token = req.headers.authorization?.split(' ')[1];
-        if (!token) {
-            return res.status(401).json({ error: 'No token provided' });
-        }
-
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
-        const user = await User.findById(decoded.userId).select('-password');
-
-        res.json(user);
-    } catch (error) {
-        res.status(401).json({ error: 'Invalid token' });
-    }
-});
-
-// Add product
-app.post('/api/products', async (req, res) => {
-    try {
-        const token = req.headers.authorization?.split(' ')[1];
-        if (!token) {
-            return res.status(401).json({ error: 'No token provided' });
-        }
-
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
-        const user = await User.findById(decoded.userId);
-
-        if (!user.subscription.isActive) {
-            return res.status(403).json({ error: 'Subscription required to add products' });
-        }
-
-        const product = new Product({
-            ...req.body,
-            business: user._id
-        });
-
-        await product.save();
-        res.status(201).json(product);
-    } catch (error) {
-        res.status(500).json({ error: 'Product creation failed' });
-    }
-});
-
-// Get products
-app.get('/api/products', async (req, res) => {
-    try {
-        const products = await Product.find().populate('business', 'businessName location');
-        res.json(products);
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch products' });
-    }
-});
-
+// --- Server Initialization ---
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+server.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });

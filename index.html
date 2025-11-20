@@ -7,12 +7,15 @@
     <title>Queen of Her Yard - Empowering Women Entrepreneurs in Kenya</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
 </head>
 
 <body>
+    <!-- Loader -->
+    <div class="loader-container" id="loader">
+        <div class="loader-spinner"></div>
+        <p>Loading Details...</p>
+    </div>
+
     <!-- Navigation -->
     <header class="header">
         <nav class="navbar">
@@ -26,6 +29,7 @@
                         <a href="#home" class="nav-link active">Home</a>
                         <a href="#about" class="nav-link">About</a>
                         <a href="#businesses" class="nav-link">Businesses</a>
+                        <a href="#success-stories" class="nav-link">Success Stories</a>
                         <a href="#faqs" class="nav-link">FAQs</a>
                         <a href="#subscription" class="nav-link">Subscribe</a>
                         <a href="#contact" class="nav-link">Contact</a>
@@ -149,6 +153,14 @@
                 <p class="section-subtitle">Discover amazing businesses run by women entrepreneurs across Kenya</p>
             </div>
 
+            <!-- Search Bar -->
+            <div class="search-container">
+                <div class="search-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="search" id="search-input" placeholder="Search by name, category, or keyword...">
+                </div>
+            </div>
+
             <div class="business-filters">
                 <button class="filter-btn active" data-filter="all">All</button>
                 <button class="filter-btn" data-filter="fashion">Fashion</button>
@@ -231,6 +243,56 @@
                         <button class="btn btn-outline view-details-btn" data-business="nia-beauty-lounge">
                             View Details
                         </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Stories Section -->
+    <section id="success-stories" class="success-stories">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Success Stories</h2>
+                <p class="section-subtitle">Hear from the inspiring women who have grown their businesses with us.</p>
+            </div>
+
+            <div class="stories-grid">
+                <!-- Story Card 1 -->
+                <div class="story-card">
+                    <div class="story-image">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=776&q=80"
+                            alt="Entrepreneur Jane Doe">
+                    </div>
+                    <div class="story-content">
+                        <div class="story-quote">
+                            <i class="fas fa-quote-left"></i>
+                            <p>Queen of Her Yard gave my business the visibility it needed to thrive. The community
+                                support and digital tools are invaluable. My sales have doubled since I joined!</p>
+                        </div>
+                        <div class="story-author">
+                            <h4>Jane Doe</h4>
+                            <span>Founder of Zawadi Designs</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Story Card 2 -->
+                <div class="story-card">
+                    <div class="story-image">
+                        <img src="https://images.unsplash.com/photo-1599665793922-a427e5a522f7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80"
+                            alt="Entrepreneur Maria Kimani">
+                    </div>
+                    <div class="story-content">
+                        <div class="story-quote">
+                            <i class="fas fa-quote-left"></i>
+                            <p>Being part of this platform has been a game-changer. The workshops helped me refine my
+                                business strategy, and I've connected with so many amazing customers.</p>
+                        </div>
+                        <div class="story-author">
+                            <h4>Maria Kimani</h4>
+                            <span>Owner of Mama Shiko's Kitchen</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -694,9 +756,9 @@
                 <div class="footer-section">
                     <h3>Resources</h3>
                     <ul>
-                        <li><a href="#">Success Stories</a></li>
+                        <li><a href="#success-stories">Success Stories</a></li>
                         <li><a href="#">Business Tips</a></li>
-                        <li><a href="#">FAQ</a></li>
+                        <li><a href="index.html#faqs">FAQ</a></li>
                         <li><a href="#">Terms of Service</a></li>
                         <li><a href="#">Privacy Policy</a></li>
                     </ul>
@@ -741,7 +803,7 @@
                         <div class="input-field">
                             <i class="fas fa-lock"></i>
                             <input type="password" id="login-password" placeholder="Password" required>
-                            <button type="button" class="password-toggle" id="toggle-login-password">
+                            <button type="button" class="password-toggle" id="toggle-login-password" aria-label="Toggle password visibility">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
@@ -819,7 +881,7 @@
                         <div class="input-field">
                             <i class="fas fa-lock"></i>
                             <input type="password" id="signup-password" placeholder="Password" required>
-                            <button type="button" class="password-toggle" id="toggle-signup-password">
+                            <button type="button" class="password-toggle" id="toggle-signup-password" aria-label="Toggle password visibility">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
@@ -829,7 +891,7 @@
                         <div class="input-field">
                             <i class="fas fa-lock"></i>
                             <input type="password" id="signup-confirmpassword" placeholder="Confirm Password" required>
-                            <button type="button" class="password-toggle" id="toggle-signup-confirmpassword">
+                            <button type="button" class="password-toggle" id="toggle-signup-confirmpassword" aria-label="Toggle password visibility">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
@@ -895,7 +957,8 @@
             <div class="chat-info">
                 <h4>Queen Assistant</h4>
                 <p>Ask me about businesses or support</p>
-            </div><button>class="chat-close" id="chat-close">/</button>
+            </div>
+            <button type="button" class="chat-close" id="chat-close">
                 <i class="fas fa-times"></i>
             </button>
         </div>
@@ -928,7 +991,7 @@
             </div>
             <div class="chat-input-wrapper">
                 <input type="text" id="chat-input" placeholder="Type your message here..." maxlength="500">
-                <button id="send-message">
+                <button type="button" id ="send-message" "send-message">
                     <i class="fas fa-paper-plane"></i>
                 </button>
             </div>
@@ -940,6 +1003,12 @@
         <i class="fas fa-comments"></i>
         <span class="chat-notification"></span>
     </button>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+    <script src="js/errorHandler.js"></script>
+    <script src="js/socket-client.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
