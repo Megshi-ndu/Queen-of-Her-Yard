@@ -18,6 +18,8 @@ const userSchema = new mongoose.Schema({
         isActive: { type: Boolean, default: false }
     },
     referralCode: { type: String, unique: true },
+    passwordResetToken: { type: String },
+    passwordResetExpires: { type: Date },
 }, {
     timestamps: true // Adds createdAt and updatedAt fields
 });
