@@ -208,6 +208,7 @@ For support and questions:
 
 - Link to powerpoint presentation on Queen of her yard: https://www.canva.com/design/DAG0TtQR6DE/TDDkfFH--ZXfLKXPOdKxww/edit?utm_content=DAG0TtQR6DE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
+Deployment link: https://vercel.com/margaret-ndungus-projects/queen-of-her-yard-1/2ZwdtPuvNZMriBKbGigW3ihb8dZu
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
