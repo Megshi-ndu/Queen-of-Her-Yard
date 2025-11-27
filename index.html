@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Queen of Her Yard - Empowering Women Entrepreneurs in Kenya</title>
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -15,6 +16,7 @@
         <div class="loader-spinner"></div>
         <p>Loading Details...</p>
     </div>
+
 
     <!-- Navigation -->
     <header class="header">
@@ -722,6 +724,7 @@
         </div>
     </section>
 
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -991,7 +994,7 @@
             </div>
             <div class="chat-input-wrapper">
                 <input type="text" id="chat-input" placeholder="Type your message here..." maxlength="500">
-                <button type="button" id ="send-message" "send-message">
+                <button type="button" id ="send-message">
                     <i class="fas fa-paper-plane"></i>
                 </button>
             </div>
@@ -1003,12 +1006,14 @@
         <i class="fas fa-comments"></i>
         <span class="chat-notification"></span>
     </button>
+    <div id="root"></div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
     <script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
     <script src="js/errorHandler.js"></script>
     <script src="js/socket-client.js"></script>
+    <script type="module" src="/src/main.jsx"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
