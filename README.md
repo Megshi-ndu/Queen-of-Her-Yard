@@ -1,9 +1,12 @@
 # Queen-of-Her-Yard
 
-# Queen of Her Yard - E-commerce Platform
+# Queen of Her Yard - Empowering Women Entrepreneurs Platform
 
 ![Queen of Her Yard](https://img.shields.io/badge/Queen%20of%20Her%20Yard-Empowering%20Women%20Entrepreneurs-purple)
 ![Node.js](https://img.shields.io/badge/Node.js-18.x-green)
+![React](https://img.shields.io/badge/React-18.x-blue)
+![Vite](https://img.shields.io/badge/Vite-Latest-yellow)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.x-cyan)
 ![Express](https://img.shields.io/badge/Express-4.x-lightgrey)
 ![MongoDB](https://img.shields.io/badge/MongoDB-5.x-green)
 ![M-Pesa](https://img.shields.io/badge/M--Pesa-Integration-orange)
@@ -12,30 +15,54 @@ A comprehensive e-commerce platform designed to empower women entrepreneurs in K
 
 ## 🌟 Overview
 
-Queen of Her Yard is a full-stack web application that enables women entrepreneurs in Kenya to:
-- Create professional business profiles
-- Showcase products and services
-- Accept payments via M-Pesa
+Queen of Her Yard is a full-stack web application built with modern technologies that enables women entrepreneurs in Kenya to:
+- Create professional business profiles with enhanced visuals
+- Showcase products and services with responsive design
+- Accept payments via M-Pesa integration
 - Manage subscriptions for premium features
 - Connect with customers and other entrepreneurs
+- Benefit from improved user experience and accessibility
+
+## 🚀 Recent Updates & Improvements
+
+### 🎨 **Enhanced Visual Representation**
+- Updated images to feature authentic photos of Black women entrepreneurs
+- Improved About section with professional business meeting imagery
+- Enhanced Success Stories with representative entrepreneur photos
+- Better visual storytelling for authentic representation
+
+### 🛠️ **Technical Improvements**
+- **CSS Refactoring**: Fixed invalid Tailwind CSS classes (`border-r-0.5`, `border-b-0.5`, `max-w-4/5`)
+- **Modern Frontend Stack**: Migrated to Vite + React for better performance
+- **Tailwind CSS Integration**: Enhanced styling with custom utilities and responsive design
+- **Hot Reload**: Improved development experience with instant updates
+
+### 🔧 **Bug Fixes & Optimizations**
+- Resolved PostCSS compilation errors
+- Improved CSS class structure and validity
+- Enhanced mobile responsiveness
+- Optimized image loading and display
 
 ## 🚀 Features
 
 ### Frontend Features
-- **Responsive Design**: Mobile-first approach for all devices
-- **Modern UI/UX**: Beautiful, intuitive interface with purple theme
+- **Modern React Architecture**: Built with Vite for fast development
+- **Responsive Design**: Mobile-first approach with Tailwind CSS
+- **Enhanced UI/UX**: Beautiful, intuitive interface with accessibility improvements
 - **Business Listings**: Showcase businesses with filtering by category
-- **Authentication System**: Secure signup and login
+- **Authentication System**: Secure signup and login with form validation
 - **Subscription Management**: Tiered pricing plans with M-Pesa integration
-- **Interactive Modals**: Smooth user experience for forms and payments
+- **Interactive Components**: Smooth animations and transitions
+- **Accessibility**: Improved alt text and semantic HTML
 
 ### Backend Features
 - **RESTful API**: Complete CRUD operations
 - **User Authentication**: JWT-based secure authentication
-- **M-Pesa Integration**: Seamless payment processing
-- **MongoDB Database**: Scalable data storage
+- **M-Pesa Integration**: Seamless payment processing with STK Push
+- **MongoDB Database**: Scalable data storage with Mongoose ODM
 - **File Uploads**: Support for business images and product photos
 - **Subscription Management**: Automated plan tracking and expiration
+- **Real-time Features**: Socket.io integration for live chat
 
 ### Business Categories Supported
 - 🛍️ Fashion & Design
@@ -49,24 +76,33 @@ Queen of Her Yard is a full-stack web application that enables women entrepreneu
 ## 🛠️ Technology Stack
 
 ### Frontend
-- **HTML5** - Semantic markup
-- **CSS3** - Custom properties, Flexbox, Grid
-- **JavaScript ES6+** - Modern JavaScript features
-- **Font Awesome** - Icons
-- **Google Fonts** - Typography (Poppins)
+- **React 18** - Modern UI library with hooks and functional components
+- **Vite** - Fast build tool and development server
+- **Tailwind CSS 3.x** - Utility-first CSS framework
+- **HTML5** - Semantic markup with accessibility features
+- **JavaScript ES6+** - Modern JavaScript with async/await
+- **Font Awesome** - Comprehensive icon library
+- **Google Fonts** - Professional typography (Inter, Playfair Display)
 
 ### Backend
-- **Node.js** - Runtime environment
-- **Express.js** - Web framework
-- **MongoDB** - Database
-- **Mongoose** - ODM for MongoDB
-- **JWT** - Authentication tokens
-- **bcryptjs** - Password hashing
-- **Axios** - HTTP requests for M-Pesa API
+- **Node.js 18+** - Runtime environment
+- **Express.js 4.x** - Web application framework
+- **MongoDB 5.x** - NoSQL database
+- **Mongoose** - Elegant MongoDB object modeling
+- **JWT** - Secure authentication tokens
+- **bcryptjs** - Password hashing and security
+- **Axios** - HTTP client for M-Pesa API integration
+- **Socket.io** - Real-time bidirectional communication
 
 ### Payment Integration
 - **M-Pesa Daraja API** - Kenyan mobile payment system
-- **STK Push** - Direct payment prompts to phones
+- **STK Push** - Direct payment prompts to mobile phones
+- **M-Pesa Express** - Seamless payment processing
+
+### Development Tools
+- **PostCSS** - CSS transformation and optimization
+- **ESLint** - Code linting and quality assurance
+- **Vite HMR** - Hot Module Replacement for instant updates
 
 ## 📋 Prerequisites
 
@@ -124,11 +160,16 @@ BASE_URL=http://localhost:5000
 ### 4. Frontend Setup
 ```bash
 # Navigate to frontend directory
-cd ../frontend
+cd ../Frontend
 
-# The frontend is static HTML/CSS/JS
-# No additional installation required for basic setup
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ```
+
+The frontend will be available at `http://localhost:5173` (Vite default port)
 
 ### 5. Database Setup
 Ensure MongoDB is running:
@@ -149,7 +190,7 @@ npm run dev
 ```
 
 The application will be available at:
-- Frontend: `http://localhost:3000` (serve using Live Server or similar)
+- Frontend: `http://localhost:5175` (Vite development server)
 - Backend API: `http://localhost:5000`
 
 ## 📱 Usage Guide
@@ -179,11 +220,16 @@ The application will be available at:
 ## 🔌 API Endpoints
 
 ### Authentication
-- `POST /api/register` - User registration
-- `POST /api/login` - User login
-- `GET /api/profile` - Get user profile
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+- `GET /api/auth/profile` - Get user profile
+- `PUT /api/auth/profile` - Update user profile
 
 ### Businesses & Products
+- `GET /api/businesses` - Get all businesses
+- `POST /api/businesses` - Create new business
+- `GET /api/businesses/:id` - Get specific business
+- `PUT /api/businesses/:id` - Update business
 - `POST /api/products` - Add new product
 - `GET /api/products` - Get all products
 - `GET /api/products/:id` - Get specific product
@@ -191,38 +237,82 @@ The application will be available at:
 ### Payments
 - `POST /api/mpesa/stkpush` - Initiate M-Pesa payment
 - `POST /api/mpesa/callback` - M-Pesa payment callback
+- `GET /api/payments/history` - Payment history
+
+### Real-time Features
+- WebSocket connection for live chat and notifications
+- Real-time business updates and activity feeds
 
 
-## 📞 Support
+## 📞 Support & Contact
 
 For support and questions:
-- 📧 Email: queenofheryard@gmail.com
-- 📱 Phone: +254 729 846 929
-- 🐛 Issues: [GitHub Issues](https://github.com/your-username/queen-of-her-yard/issues)
+- 📧 **Email**: info@queenofheryard.co.ke
+- 📱 **Phone**: +254 729 846 929, +254 738 160 386
+- 🏢 **Office**: Java Plaza, 4th Floor, Mama Ngina Street, Embu, Kenya
+- 🐛 **Issues**: [GitHub Issues](https://github.com/your-username/queen-of-her-yard/issues)
 
 ## 🙏 Acknowledgments
 
-- **Safaricom M-Pesa** for payment integration
-- **Women Entrepreneurs** in Kenya for inspiration
+- **Safaricom M-Pesa** for payment integration capabilities
+- **Women Entrepreneurs** in Kenya for inspiration and feedback
 - **Open Source Community** for amazing tools and libraries
+- **React & Vite Teams** for excellent development tools
+- **Tailwind CSS** for beautiful, utility-first styling
 
-- Link to powerpoint presentation on Queen of her yard: https://www.canva.com/design/DAG0TtQR6DE/TDDkfFH--ZXfLKXPOdKxww/edit?utm_content=DAG0TtQR6DE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+### 📊 Project Links
+- **PowerPoint Presentation**: [Canva Design](https://www.canva.com/design/DAG0TtQR6DE/TDDkfFH--ZXfLKXPOdKxww/edit)
+- **Live Deployment**: [Vercel](https://vercel.com/margaret-ndungus-projects/queen-of-her-yard-1/2ZwdtPuvNZMriBKbGigW3ihb8dZu)
+## 📁 Project Structure
 
-Deployment link: https://vercel.com/margaret-ndungus-projects/queen-of-her-yard-1/2ZwdtPuvNZMriBKbGigW3ihb8dZu
+```
+queen-of-her-yard/
+├── Backend/
+│   ├── middleware/         # Authentication & validation middleware
+│   ├── routes/            # API route handlers
+│   ├── models/            # MongoDB models
+│   ├── controllers/       # Business logic controllers
+│   ├── config/            # Database and app configuration
+│   └── server.js          # Main server file
+├── Frontend/
+│   ├── src/
+│   │   ├── components/    # React components
+│   │   ├── assets/        # Images, fonts, icons
+│   │   └── main.jsx       # React app entry point
+│   ├── css/
+│   │   └── style.css      # Global styles and Tailwind customizations
+│   ├── public/            # Static assets
+│   └── index.html         # HTML template
+└── README.md              # This file
+```
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🌍 Impact
+## 🌍 Impact & Goals
 
 Queen of Her Yard aims to:
-- 💪 Empower 10,000+ women entrepreneurs in Kenya by 2025
-- 💰 Generate over KSh 100M in business revenue through the platform
-- 🌱 Create a supportive community for women in business
-- 📈 Increase digital literacy among women entrepreneurs
+- 💪 **Empower 10,000+ women entrepreneurs** in Kenya by 2025
+- 💰 **Generate over KSh 100M** in business revenue through the platform
+- 🌱 **Create a supportive community** for women in business
+- 📈 **Increase digital literacy** among women entrepreneurs
+- 🤝 **Foster networking** between entrepreneurs and customers
+- 🎯 **Provide accessible tools** for business growth and success
+
+## 🚀 Future Roadmap
+
+- **Mobile App**: Native iOS and Android applications
+- **AI Recommendations**: Smart product and business matching
+- **Video Integration**: Video calls and virtual business meetings
+- **Multi-language Support**: Swahili and other local languages
+- **Advanced Analytics**: Business insights and performance tracking
+- **Partnership Integration**: Connect with suppliers and distributors
 
 ---
 
 **Built with ❤️ for Women Entrepreneurs in Kenya**
 
 *"When you empower a woman, you empower a community."*
+
+**Current Version**: 2.0.0 - Enhanced with React, Vite, and Improved Visual Representation
