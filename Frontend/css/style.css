@@ -1265,5 +1265,27 @@
     .auth-buttons .btn {
       @apply w-full justify-center;
     }
+    
+    /* QR Code responsive styles */
+    .contact-qr-code {
+      @apply hidden;
+    }
   }
+}
+
+/* QR Code Styles */
+.contact-qr-code {
+  @apply mt-lg flex justify-center lg:justify-start;
+}
+
+.qr-code-container {
+  @apply flex flex-col items-center bg-white p-4 rounded-lg shadow-md border border-border-light;
+}
+
+.qr-code-image {
+  @apply w-20 h-20 mb-2;
+}
+
+.qr-code-text {
+  @apply text-xs text-text-light text-center font-medium;
 }
