@@ -169,7 +169,7 @@ npm install
 npm run dev
 ```
 
-The frontend will be available at `http://localhost:5173` (Vite default port)
+The frontend will be available at `http://localhost:5175` (Vite default port)
 
 ### 5. Database Setup
 Ensure MongoDB is running:
