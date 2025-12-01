@@ -1,0 +1,33 @@
+# Render Deployment Configuration
+# This file can be used for automated deployment setup
+
+services:
+  - type: web
+    name: queen-of-her-yard-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      # Add these environment variables manually in Render dashboard:
+      # - key: MONGO_URI
+      #   sync: false
+      # - key: JWT_SECRET
+      #   sync: false
+      # - key: BASE_URL
+      #   sync: false
+      # - key: ALLOWED_ORIGINS
+      #   sync: false
+      # - key: MPESA_CONSUMER_KEY
+      #   sync: false
+      # - key: MPESA_CONSUMER_SECRET
+      #   sync: false
+      # - key: MPESA_SHORTCODE
+      #   sync: false
+      # - key: MPESA_PASSKEY
+      #   sync: false
